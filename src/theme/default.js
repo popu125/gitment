@@ -1,4 +1,4 @@
-import { github as githubIcon, heart as heartIcon, spinner as spinnerIcon } from '../icons'
+import { github as githubIcon, heart as heartIcon, spinner as spinnerIcon, reply as replyIcon } from '../icons'
 import { NOT_INITIALIZED_ERROR } from '../constants'
 
 function renderHeader({ meta, user, reactions }, instance) {
@@ -119,6 +119,7 @@ function renderComments({ meta, comments, commentReactions, currentPage, user, e
             ? ` • <span title="comment was edited at ${updateDate}">edited</span>`
             : ''
           }
+          <div class="gitment-comment-reply-btn">${replyIcon}</div>
           <div class="gitment-comment-like-btn">${heartIcon} ${comment.reactions.heart || ''}</div>
         </div>
         <div class="gitment-comment-body gitment-markdown">${comment.body_html}</div>
@@ -136,6 +137,9 @@ function renderComments({ meta, comments, commentReactions, currentPage, user, e
       likeButton.classList.remove('liked')
       likeButton.onclick = () => instance.likeAComment(comment.id)
     }
+
+    const replyButton = commentItem.querySelector('.gitment-comment-reply-btn');
+    replyButton.onclick = () => instance.replyAComment(comment.user.login)
 
     // dirty
     // use a blank image to trigger height calculating when element rendered
@@ -237,7 +241,7 @@ function renderEditor({ user, error }, instance) {
       </div>
       <div class="gitment-editor-body">
         <div class="gitment-editor-write-field">
-          <textarea placeholder="Leave a comment" title="${disabledTip}" ${shouldDisable}></textarea>
+          <textarea placeholder="Leave a comment" id="gitment-editor" title="${disabledTip}" ${shouldDisable}></textarea>
         </div>
         <div class="gitment-editor-preview-field gitment-hidden">
           <div class="gitment-editor-preview gitment-markdown"></div>

@@ -338,6 +338,15 @@ class Gitment {
         comment.reactions.heart--
       })
   }
+
+  replyAComment(name) {
+    if (!this.accessToken) return Promise.reject()
+    const editor = document.getElementById('gitment-editor')
+    editor.innerText += '@'+name+' '
+    editor.focus()
+  }
 }
+
+
 
 module.exports = Gitment
